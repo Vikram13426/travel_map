@@ -87,7 +87,7 @@ const App = () => {
     const [description, setDescription] = useState(null);
     const [rating, setRating] = useState(1);
     const [tags, setTags] = useState([]);
-    const [showTagDropdown, setShowTagDropdown] = useState(false); // New state for dropdown visibility
+    const [showTagDropdown, setShowTagDropdown] = useState(false);
     const [currentUser, setCurrentUser] = useState(localStorage.getItem('user'));
     const [showRegister, setShowRegister] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
@@ -96,9 +96,8 @@ const App = () => {
     const [showProgress, setShowProgress] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-    const dropdownRef = useRef(null); // Ref to handle click outside for closing dropdown
+    const dropdownRef = useRef(null);
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -391,25 +390,25 @@ const App = () => {
         borderRadius: '15px',
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
         p: 4,
-        background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        background: 'linear-gradient(135deg,rgb(67, 116, 189) 0%,rgb(120, 157, 216) 100%)',
         maxHeight: '80vh',
         overflowY: 'auto',
     };
 
-    // Available tags (same as backend ALLOWED_TAGS)
     const availableTags = [
-        'Beach', 'Mountain', 'City', 'Adventure', 'Food', 'Historical', 'Nature', 'Culture'
+        'Beach', 'Mountain', 'City', 'Adventure', 'Food', 'Historical', 'Nature', 'Culture',
+        'Park', 'Museum', 'Temple', 'Church', 'Wildlife', 'Lake', 'Desert', 'Cave', 'Island',
+        'Festival', 'Market', 'Hiking', 'Camping', 'Monument', 'Waterfall', 'Forest', 'Art',
+        'Nightlife', 'Village', 'Harbor', 'Bridge', 'Garden', 'Palace', 'Fort', 'River'
     ];
 
-    // Handle tag selection
     const handleTagSelect = (tag) => {
         if (!tags.includes(tag)) {
             setTags([...tags, tag]);
         }
-        setShowTagDropdown(false); // Close dropdown after selection
+        setShowTagDropdown(false);
     };
 
-    // Handle tag removal
     const handleTagRemove = (tag) => {
         setTags(tags.filter(t => t !== tag));
     };
@@ -448,7 +447,7 @@ const App = () => {
                         zoom: viewport.zoom,
                     }}
                     style={{ width: "100%", height: "100%" }}
-                    mapStyle="mapbox://styles/mapbox/streets-v12"
+                    mapStyle="mapbox://styles/mapbox/outdoors-v12"
                     mapboxAccessToken={import.meta.env.VITE_MAPBOX}
                     onDblClick={handleAddClick}
                     doubleClickZoom={false}
@@ -467,7 +466,7 @@ const App = () => {
                                     <LocationOnIcon
                                         className="icon"
                                         style={{
-                                            color: pin.userName === currentUser ? 'tomato' : 'blue',
+                                            color: !currentUser ? '#ff0000' : (pin.userName === currentUser ? '#3342ff' : '#ff0000'),
                                             fontSize: calculateMarkerSize(),
                                         }}
                                         onDoubleClick={(event) => event.stopPropagation()}
@@ -483,38 +482,51 @@ const App = () => {
                                         closeOnMove={false}
                                         anchor="left"
                                         onClose={() => setCurrentPlaceId(null)}
+                                        className="pin-view-popup"
                                     >
-                                        <div className="card">
-                                            <label>Place</label>
-                                            <h4 className="place">{pin.title}</h4>
-                                            <label>Country</label>
-                                            <p className="description">{pin.country}</p>
-                                            <label>Tags</label>
-                                            <p className="tags">{pin.tags?.join(', ') || 'None'}</p>
-                                            <label>Review</label>
-                                            <p className="description">{pin.description}</p>
-                                            <label>Rating</label>
-                                            <div className="stars">
-                                                {Array(pin.rating).fill(<StarIcon className="star" />)}
+                                        <div className="card-3d">
+                                            <div className="card-header">
+                                                <h4 className="place">{pin.title}</h4>
                                             </div>
-                                            <label>Information</label>
-                                            <div className="info">
-                                                <span className="username">
-                                                    Created by <b>{pin.userName}</b>
-                                                </span>
-                                                <span className="date">{moment(pin.createdAt).fromNow()}</span>
+                                            <div className="card-body">
+                                                <div className="info-section">
+                                                    <span className="info-label">Country:</span>
+                                                    <p className="info-text">{pin.country}</p>
+                                                </div>
+                                                <div className="info-section">
+                                                    <span className="info-label">Tags:</span>
+                                                    <p className="info-text tags">{pin.tags?.join(', ') || 'None'}</p>
+                                                </div>
+                                                <div className="info-section">
+                                                    <span className="info-label">Review:</span>
+                                                    <p className="info-text">{pin.description}</p>
+                                                </div>
+                                                <div className="info-section">
+                                                    <span className="info-label">Rating:</span>
+                                                    <div className="stars">
+                                                        {Array(pin.rating).fill(<StarIcon className="star" />)}
+                                                    </div>
+                                                </div>
+                                                <div className="info-section">
+                                                    <span className="info-label">Created by:</span>
+                                                    <span className="info-text username">{pin.userName}</span>
+                                                </div>
+                                                <div className="info-section">
+                                                    <span className="info-label">Date:</span>
+                                                    <span className="info-text date">{moment(pin.createdAt).fromNow()}</span>
+                                                </div>
                                             </div>
                                             {currentUser === pin.userName && (
-                                                <div className="btn_group">
+                                                <div className="btn-group-3d">
                                                     <button
-                                                        className="submitButton edit"
+                                                        className="btn-3d edit"
                                                         type="button"
                                                         onClick={() => handleEditPin(pin)}
                                                     >
                                                         Edit Pin
                                                     </button>
                                                     <button
-                                                        className="submitButton delete"
+                                                        className="btn-3d delete"
                                                         type="button"
                                                         onClick={() => handleDeletePin(pin._id)}
                                                     >
@@ -542,75 +554,90 @@ const App = () => {
                                 setShowTagDropdown(false);
                             }}
                             anchor="left"
+                            className="pin-form-popup"
                         >
                             <div>
                                 {console.log('Rendering popup for newPlace:', newPlace)}
                                 {!showFormEdit && newPlace && (
-                                    <form onSubmit={handlePinSubmit} className="pin-form">
-                                        <label>Title</label>
-                                        <input
-                                            type="text"
-                                            placeholder="Enter a title"
-                                            onChange={(e) => setTitle(e.target.value)}
-                                        />
-                                        <label>Review</label>
-                                        <textarea
-                                            placeholder="Say something about this place"
-                                            onChange={(e) => setDescription(e.target.value)}
-                                        />
-                                        <label>Tags</label>
-                                        <div className="tag-selector" ref={dropdownRef}>
-                                            <button
-                                                type="button"
-                                                className="tag-dropdown-button"
-                                                onClick={() => setShowTagDropdown(!showTagDropdown)}
-                                            >
-                                                {tags.length > 0 ? `${tags.length} tag(s) selected` : 'Select tags'}
-                                            </button>
-                                            {showTagDropdown && (
-                                                <div className="tag-dropdown">
-                                                    {availableTags.map((tag) => (
-                                                        <div
-                                                            key={tag}
-                                                            className={`tag-option ${tags.includes(tag) ? 'selected' : ''}`}
-                                                            onClick={() => handleTagSelect(tag)}
-                                                        >
-                                                            {tag}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                            {tags.length > 0 && (
-                                                <div className="selected-tags">
-                                                    {tags.map((tag) => (
-                                                        <span key={tag} className="tag-chip">
-                                                            {tag}
-                                                            <CloseIcon
-                                                                className="tag-chip-remove"
-                                                                onClick={() => handleTagRemove(tag)}
-                                                            />
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            )}
+                                    <form onSubmit={handlePinSubmit} className="pin-form-3d">
+                                        <div className="form-header">
+                                            <h3>Add a New Pin</h3>
                                         </div>
-                                        <label>Rating</label>
-                                        <select
-                                            value={rating}
-                                            onChange={(e) => setRating(Number(e.target.value))}
-                                        >
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
-                                        <button className="submitButton" type="submit">
+                                        <div className="form-field">
+                                            <label>Title</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Enter a title"
+                                                onChange={(e) => setTitle(e.target.value)}
+                                                className="input-3d"
+                                            />
+                                        </div>
+                                        <div className="form-field">
+                                            <label>Review</label>
+                                            <textarea
+                                                placeholder="Say something about this place"
+                                                onChange={(e) => setDescription(e.target.value)}
+                                                className="textarea-3d"
+                                            />
+                                        </div>
+                                        <div className="form-field">
+                                            <label>Tags</label>
+                                            <div className="tag-selector-3d" ref={dropdownRef}>
+                                                <button
+                                                    type="button"
+                                                    className="tag-dropdown-button-3d"
+                                                    onClick={() => setShowTagDropdown(!showTagDropdown)}
+                                                >
+                                                    {tags.length > 0 ? `${tags.length} tag(s) selected` : 'Select tags'}
+                                                </button>
+                                                {showTagDropdown && (
+                                                    <div className="tag-dropdown-3d">
+                                                        {availableTags.map((tag) => (
+                                                            <div
+                                                                key={tag}
+                                                                className={`tag-option-3d ${tags.includes(tag) ? 'selected' : ''}`}
+                                                                onClick={() => handleTagSelect(tag)}
+                                                            >
+                                                                {tag}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                                {tags.length > 0 && (
+                                                    <div className="selected-tags-3d">
+                                                        {tags.map((tag) => (
+                                                            <span key={tag} className="tag-chip-3d">
+                                                                {tag}
+                                                                <CloseIcon
+                                                                    className="tag-chip-remove-3d"
+                                                                    onClick={() => handleTagRemove(tag)}
+                                                                />
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="form-field">
+                                            <label>Rating</label>
+                                            <select
+                                                value={rating}
+                                                onChange={(e) => setRating(Number(e.target.value))}
+                                                className="select-3d"
+                                            >
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                        <button className="submit-btn-3d" type="submit">
                                             Add Pin
                                         </button>
                                         {showProgress && (
                                             <Box sx={{ width: '100%' }}>
-                                                <LinearProgress />
+                                                <LinearProgress className="progress-bar-3d" />
                                             </Box>
                                         )}
                                     </form>
@@ -619,74 +646,88 @@ const App = () => {
                                 {showFormEdit && newPlace && (
                                     <form
                                         onSubmit={(e) => handleEditPinSubmit(e, { _id: currentPlaceId })}
-                                        className="pin-form"
+                                        className="pin-form-3d"
                                     >
-                                        <label>Title</label>
-                                        <input
-                                            type="text"
-                                            placeholder="Enter a title"
-                                            value={title || ''}
-                                            onChange={(e) => setTitle(e.target.value)}
-                                        />
-                                        <label>Review</label>
-                                        <textarea
-                                            placeholder="Say something about this place"
-                                            value={description || ''}
-                                            onChange={(e) => setDescription(e.target.value)}
-                                        />
-                                        <label>Tags</label>
-                                        <div className="tag-selector" ref={dropdownRef}>
-                                            <button
-                                                type="button"
-                                                className="tag-dropdown-button"
-                                                onClick={() => setShowTagDropdown(!showTagDropdown)}
-                                            >
-                                                {tags.length > 0 ? `${tags.length} tag(s) selected` : 'Select tags'}
-                                            </button>
-                                            {showTagDropdown && (
-                                                <div className="tag-dropdown">
-                                                    {availableTags.map((tag) => (
-                                                        <div
-                                                            key={tag}
-                                                            className={`tag-option ${tags.includes(tag) ? 'selected' : ''}`}
-                                                            onClick={() => handleTagSelect(tag)}
-                                                        >
-                                                            {tag}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                            {tags.length > 0 && (
-                                                <div className="selected-tags">
-                                                    {tags.map((tag) => (
-                                                        <span key={tag} className="tag-chip">
-                                                            {tag}
-                                                            <CloseIcon
-                                                                className="tag-chip-remove"
-                                                                onClick={() => handleTagRemove(tag)}
-                                                            />
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            )}
+                                        <div className="form-header">
+                                            <h3>Edit Pin</h3>
                                         </div>
-                                        <label>Rating</label>
-                                        <select
-                                            value={rating}
-                                            onChange={(e) => setRating(Number(e.target.value))}
-                                        >
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
-                                        <button className="submitButton" type="submit">
+                                        <div className="form-field">
+                                            <label>Title</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Enter a title"
+                                                value={title || ''}
+                                                onChange={(e) => setTitle(e.target.value)}
+                                                className="input-3d"
+                                            />
+                                        </div>
+                                        <div className="form-field">
+                                            <label>Review</label>
+                                            <textarea
+                                                placeholder="Say something about this place"
+                                                value={description || ''}
+                                                onChange={(e) => setDescription(e.target.value)}
+                                                className="textarea-3d"
+                                            />
+                                        </div>
+                                        <div className="form-field">
+                                            <label>Tags</label>
+                                            <div className="tag-selector-3d" ref={dropdownRef}>
+                                                <button
+                                                    type="button"
+                                                    className="tag-dropdown-button-3d"
+                                                    onClick={() => setShowTagDropdown(!showTagDropdown)}
+                                                >
+                                                    {tags.length > 0 ? `${tags.length} tag(s) selected` : 'Select tags'}
+                                                </button>
+                                                {showTagDropdown && (
+                                                    <div className="tag-dropdown-3d">
+                                                        {availableTags.map((tag) => (
+                                                            <div
+                                                                key={tag}
+                                                                className={`tag-option-3d ${tags.includes(tag) ? 'selected' : ''}`}
+                                                                onClick={() => handleTagSelect(tag)}
+                                                            >
+                                                                {tag}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                                {tags.length > 0 && (
+                                                    <div className="selected-tags-3d">
+                                                        {tags.map((tag) => (
+                                                            <span key={tag} className="tag-chip-3d">
+                                                                {tag}
+                                                                <CloseIcon
+                                                                    className="tag-chip-remove-3d"
+                                                                    onClick={() => handleTagRemove(tag)}
+                                                                />
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="form-field">
+                                            <label>Rating</label>
+                                            <select
+                                                value={rating}
+                                                onChange={(e) => setRating(Number(e.target.value))}
+                                                className="select-3d"
+                                            >
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                        <button className="submit-btn-3d" type="submit">
                                             Update Pin
                                         </button>
                                         {showProgress && (
                                             <Box sx={{ width: '100%' }}>
-                                                <LinearProgress />
+                                                <LinearProgress className="progress-bar-3d" />
                                             </Box>
                                         )}
                                     </form>

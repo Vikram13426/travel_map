@@ -22,199 +22,337 @@ body {
     z-index: 1000;
 }
 
-.card {
+/* Pin View Popup (Viewing a Pin) */
+.pin-view-popup .mapboxgl-popup-content {
+    background: transparent;
+    padding: 0;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform: perspective(1000px) rotateX(5deg);
+    transition: transform 0.3s ease;
+}
+
+.pin-view-popup .mapboxgl-popup-content:hover {
+    transform: perspective(1000px) rotateX(0deg);
+}
+
+.card-3d {
+    background: #e9ecf0;
+    border-radius: 15px;
+    padding: 20px;
+    color: #ad2e2e;
+    max-width: 300px;
+    box-shadow: 0 4px 15px rgba(248, 236, 173, 0.4), inset 0 1px 3px rgba(231, 48, 48, 0.05);
+    transform: translateZ(20px);
+    transition: transform 0.3s ease;
+}
+
+.card-3d:hover {
+    transform: translateZ(30px);
+}
+
+.card-header {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.card-header .place {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    color: #2d3748;
+    text-shadow: none;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-section {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    padding: 10px;
-    max-width: 250px;
 }
 
-.card label {
-    font-weight: bold;
-    color: #555;
+.info-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #718096;
+    text-shadow: none;
 }
 
-.card .place {
-    font-size: 18px;
+.info-text {
+    font-size: 14px;
     margin: 0;
+    color: #2d3748;
 }
 
-.card .description {
-    margin: 0;
-    color: #333;
-}
-
-.card .tags {
-    margin: 0;
-    color: #e67e22;
+.info-text.tags {
+    color: #ff6f61;
     font-style: italic;
 }
 
-.card .stars {
+.info-text.username {
+    font-weight: 600;
+    color: #2b6cb0;
+}
+
+.info-text.date {
+    font-style: italic;
+    color: #718096;
+}
+
+.stars {
     display: flex;
-    gap: 2px;
+    gap: 3px;
 }
 
-.card .star {
-    color: gold;
+.star {
+    color: #ffd700;
+    font-size: 16px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
-.card .info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.card .username, .card .date {
-    font-size: 12px;
-    color: #777;
-}
-
-.card .btn_group {
+.btn-group-3d {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
-.pin-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-    max-width: 250px;
-}
-
-.pin-form label {
-    font-weight: bold;
-}
-
-.pin-form input,
-.pin-form textarea,
-.pin-form select {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.pin-form textarea {
-    resize: vertical;
-    min-height: 60px;
-}
-
-.submitButton {
-    padding: 8px;
+.btn-3d {
+    padding: 8px 16px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #fff;
     cursor: pointer;
-    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transform: translateZ(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.submitButton:hover {
-    opacity: 0.9;
+.btn-3d:hover {
+    transform: translateZ(15px) translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-.submitButton.edit {
-    background-color: #4caf50;
-    color: white;
+.btn-3d.edit {
+    background: linear-gradient(135deg, #48bb78, #38a169);
 }
 
-.submitButton.delete {
-    background-color: #f44336;
-    color: white;
+.btn-3d.delete {
+    background: linear-gradient(135deg, #f56565, #c53030);
 }
 
-.submitButton[type="submit"] {
-    background-color: #2196f3;
-    color: white;
+/* Pin Form Popup (Adding/Editing a Pin) */
+.pin-form-popup .mapboxgl-popup-content {
+    background: transparent;
+    padding: 0;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform: perspective(1000px) rotateX(5deg);
+    transition: transform 0.3s ease;
 }
 
-/* Tag Selector Styles */
-.tag-selector {
+.pin-form-popup .mapboxgl-popup-content:hover {
+    transform: perspective(1000px) rotateX(0deg);
+}
+
+.pin-form-3d {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px 30px 20px 20px; /* Increased right padding */
+    color: #2d3748;
+    max-width: 400px;
+    box-shadow: 0 4px 15px rgba(66, 153, 225, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    transform: translateZ(20px);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.pin-form-3d:hover {
+    transform: translateZ(30px);
+}
+
+.form-header {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.form-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #2d3748;
+    text-shadow: none;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-field label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #718096;
+    text-shadow: none;
+}
+
+.input-3d,
+.textarea-3d,
+.select-3d {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #edf2f7, #e2e8f0);
+    color: #2d3748;
+    font-size: 14px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1), 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-3d:focus,
+.textarea-3d:focus,
+.select-3d:focus {
+    outline: none;
+    transform: translateZ(5px);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(145deg, #e2e8f0, #edf2f7);
+}
+
+.textarea-3d {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.tag-selector-3d {
     position: relative;
     width: 100%;
 }
 
-.tag-dropdown-button {
+.tag-dropdown-button-3d {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #edf2f7, #e2e8f0);
+    color: #2d3748;
+    font-size: 14px;
     text-align: left;
     cursor: pointer;
-    font-size: 14px;
-    color: #333;
-    transition: border-color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.tag-dropdown-button:hover {
-    border-color: #2196f3;
+.tag-dropdown-button-3d:hover {
+    transform: translateZ(5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.tag-dropdown {
+.tag-dropdown-3d {
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
     max-height: 150px;
     overflow-y: auto;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     margin-top: 5px;
 }
 
-.tag-option {
-    padding: 8px 12px;
+.tag-option-3d {
+    padding: 10px;
     cursor: pointer;
     font-size: 14px;
-    color: #333;
-    transition: background-color 0.3s ease;
+    color: #2d3748;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.tag-option:hover {
-    background-color: #f0f0f0;
+.tag-option-3d:hover {
+    background: #edf2f7;
+    transform: translateZ(5px);
 }
 
-.tag-option.selected {
-    background-color: #e3f2fd;
-    color: #2196f3;
+.tag-option-3d.selected {
+    background: #bee3f8;
+    color: #2b6cb0;
 }
 
-.selected-tags {
+.selected-tags-3d {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 8px;
     margin-top: 8px;
 }
 
-.tag-chip {
+.tag-chip-3d {
     display: flex;
     align-items: center;
     gap: 5px;
-    padding: 4px 8px;
-    background-color: #e67e22;
-    color: #fff;
+    padding: 5px 10px;
+    background: #bee3f8;
+    color: #2b6cb0;
     border-radius: 12px;
     font-size: 12px;
     font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
 }
 
-.tag-chip-remove {
+.tag-chip-3d:hover {
+    transform: translateZ(5px);
+}
+
+.tag-chip-remove-3d {
     cursor: pointer;
     font-size: 14px;
+    color: #2b6cb0;
     transition: color 0.3s ease;
 }
 
-.tag-chip-remove:hover {
-    color: #ffcccb;
+.tag-chip-remove-3d:hover {
+    color: #e53e3e;
 }
 
-/* How to Use Modal Styles */
+.submit-btn-3d {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateZ(10px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-btn-3d:hover {
+    transform: translateZ(15px) translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.progress-bar-3d {
+    background: linear-gradient(90deg, #4299e1, #3182ce);
+    height: 4px;
+    border-radius: 2px;
+}
+
+/* Existing Styles for Other Components */
 .how-to-use-cancel-icon {
     position: absolute;
     top: 15px;
@@ -290,7 +428,6 @@ body {
     font-style: italic;
 }
 
-/* Custom Toast Notification Styles */
 .custom-toast-container {
     z-index: 9999;
     width: 350px;

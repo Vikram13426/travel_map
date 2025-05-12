@@ -28,10 +28,11 @@ const PinSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    tags: { // New field for tags
+    tags: {
         type: [String],
         default: [],
-    }
+    },
+    
 }, { timestamps: true });
 
 const Pin = mongoose.model('Pin', PinSchema);
